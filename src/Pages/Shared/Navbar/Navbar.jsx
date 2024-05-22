@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const setActiveStyle = ({ isActive }) => ({
-    fontWeight: isActive ? 'bold' : 'normal',
-    color: isActive ? 'white' : 'gray',
+    fontWeight: isActive ? '900' : 'bold',
+    color: isActive ? 'yellow' : '#feb236',
     backgroundColor: isActive ? 'green' : 'transparent',
     borderRadius: isActive ? '5px' : '0',
     padding: '10px',
@@ -19,8 +19,9 @@ const Navbar = () => {
         <NavLink to="/menu" style={setActiveStyle} className="font-black">Our Menu</NavLink>
       </li>
       <li>
-        <NavLink to="/item1" style={setActiveStyle} className="font-black">Item 1</NavLink>
+        <NavLink to="/order" style={setActiveStyle} className="font-black">Order Food</NavLink>
       </li>
+     
     </>
   );
   return (
