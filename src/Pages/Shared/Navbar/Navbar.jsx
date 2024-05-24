@@ -43,6 +43,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/order/salad" style={setActiveStyle} className="font-black">Order Food</NavLink>
       </li>
+      <li>
+        <NavLink to="/login" style={setActiveStyle} className="font-black">Login</NavLink>
+      </li>
     </>
   );
 
