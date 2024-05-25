@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuhtContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
 
@@ -15,17 +15,28 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const {createUser} = useContext(AuhtContext)
+  const {createUser,updateUserProfile} = useContext(AuhtContext)
+
+  const navigate = useNavigate()
 
   const onSubmit = (data) => {
     console.log(data);
     // After handling the form submission, reset the form
-    reset();
+   
     createUser(data.email,data.password)
     .then(result =>{
       const LoggedUser = result.user
       console.log(LoggedUser)
+      updateUserProfile(data.name,data.photoURL)
+      .then(()=>{
+        console.log('User Profile Updated')
+        reset();
+      })
+      .catch(error =>{
+        console.log(error)
+      })
       toast.success("sign up successfully")
+      navigate('/')
     })
     .catch(error=>{
       console.log(error)
@@ -65,6 +76,20 @@ const SignUp = () => {
               />
               {errors.name && (
                 <span className="text-red-500">{errors.name.message}</span>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                {...register("photoURL", { required: "photoURL is required" })}
+                type="text"
+                placeholder="name"
+                className="input input-bordered"
+              />
+              {errors.photoURL && (
+                <span className="text-red-500">{errors.photoURL.message}</span>
               )}
             </div>
             <div className="form-control">

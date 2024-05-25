@@ -6,7 +6,7 @@ import {
 } from "react-simple-captcha";
 import { AuhtContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Helmet } from "react-helmet-async";
 
@@ -15,6 +15,9 @@ const Login = () => {
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { signIn } = useContext(AuhtContext);
+  const navigate  = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -31,6 +34,11 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         toast.success("Logged in successfully");
+        form.reset();
+        setDisabled(true); // Disable the login button again
+        loadCaptchaEnginge(6); // Reload CAPTCHA after successful login
+        navigate(from, { replace: true });
+
       })
       .catch((error) => {
         toast.error("Login failed");
@@ -42,8 +50,10 @@ const Login = () => {
     const user_captcha_value = captchaRef.current.value;
     if (validateCaptcha(user_captcha_value)) {
       setDisabled(false);
+      toast.success("CAPTCHA validated successfully");
     } else {
       setDisabled(true);
+      toast.error("Incorrect CAPTCHA, please try again");
     }
   };
 

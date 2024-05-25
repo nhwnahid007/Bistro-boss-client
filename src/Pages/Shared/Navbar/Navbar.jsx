@@ -1,8 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { AuhtContext } from '../../../Providers/AuthProvider';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
+
+  const {user,logOut} = useContext(AuhtContext)
+
+
+
   const setActiveStyle = ({ isActive }) => ({
     fontWeight: isActive ? '900' : 'bold',
     color: isActive ? 'yellow' : '#feb236',
@@ -24,6 +31,17 @@ const Navbar = () => {
       setMenuOpen(false);
     }
   };
+  const handleLogOut = ()=>{
+    logOut()
+    .then(()=>{
+      toast.success('Logged Out Successfully')
+    })
+    .catch(error =>{
+      console.log(error)
+      toast.error('Logout failed')
+    })
+    
+  }
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -43,9 +61,15 @@ const Navbar = () => {
       <li>
         <NavLink to="/order/salad" style={setActiveStyle} className="font-black">Order Food</NavLink>
       </li>
-      <li>
+      
+      {
+        user?  <>
+        <button onClick={handleLogOut} className="btn btn-active btn-ghost">Logout</button>
+
+        </> : <><li>
         <NavLink to="/login" style={setActiveStyle} className="font-black">Login</NavLink>
-      </li>
+      </li></>
+      }
     </>
   );
 
