@@ -4,9 +4,13 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { AuhtContext } from "../../../Providers/AuthProvider";
 import toast from "react-hot-toast";
 import { FaShoppingCart } from "react-icons/fa";
+import UseCart from "../../../Hooks/UseCart";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuhtContext);
+
+  const [cart] = UseCart()
+  console.log(cart)
 
   const setActiveStyle = ({ isActive }) => ({
     fontWeight: isActive ? "900" : "bold",
@@ -76,7 +80,7 @@ const Navbar = () => {
         >
           <button className="flex gap-1 items-center">
             <FaShoppingCart></FaShoppingCart>
-            <div className="badge badge-secondary">+0</div>
+            <div className="badge badge-secondary">+{cart.length}</div>
           </button>
         </NavLink>
       </li>
