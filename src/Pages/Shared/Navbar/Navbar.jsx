@@ -1,22 +1,20 @@
-import { useState, useEffect, useRef, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import { AuhtContext } from '../../../Providers/AuthProvider';
-import toast from 'react-hot-toast';
+import { useState, useEffect, useRef, useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AuhtContext } from "../../../Providers/AuthProvider";
+import toast from "react-hot-toast";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
-
-  const {user,logOut} = useContext(AuhtContext)
-
-
+  const { user, logOut } = useContext(AuhtContext);
 
   const setActiveStyle = ({ isActive }) => ({
-    fontWeight: isActive ? '900' : 'bold',
-    color: isActive ? 'yellow' : '#feb236',
-    backgroundColor: isActive ? 'green' : 'transparent',
-    borderRadius: isActive ? '5px' : '0',
-    padding: '10px',
-    textDecoration: 'none',
+    fontWeight: isActive ? "900" : "bold",
+    color: isActive ? "yellow" : "#feb236",
+    backgroundColor: isActive ? "green" : "transparent",
+    borderRadius: isActive ? "5px" : "0",
+    padding: "10px",
+    textDecoration: "none",
   });
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,45 +29,73 @@ const Navbar = () => {
       setMenuOpen(false);
     }
   };
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     logOut()
-    .then(()=>{
-      toast.success('Logged Out Successfully')
-    })
-    .catch(error =>{
-      console.log(error)
-      toast.error('Logout failed')
-    })
-    
-  }
+      .then(() => {
+        toast.success("Logged Out Successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Logout failed");
+      });
+  };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const navLinks = (
     <>
       <li>
-        <NavLink to="/" style={setActiveStyle} className="font-black">Home</NavLink>
+        <NavLink to="/" style={setActiveStyle} className="font-black">
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/menu" style={setActiveStyle} className="font-black">Our Menu</NavLink>
+        <NavLink to="/menu" style={setActiveStyle} className="font-black">
+          Our Menu
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/order/salad" style={setActiveStyle} className="font-black">Order Food</NavLink>
+        <NavLink
+          to="/order/salad"
+          style={setActiveStyle}
+          className="font-black"
+        >
+          Order Food
+        </NavLink>
       </li>
-      
-      {
-        user?  <>
-        <button onClick={handleLogOut} className="btn btn-active btn-ghost">Logout</button>
+      <li>
+        <NavLink
+          to="/"
+          style={setActiveStyle}
+          className="font-black"
+        >
+          <button className="flex gap-1 items-center">
+            <FaShoppingCart></FaShoppingCart>
+            <div className="badge badge-secondary">+0</div>
+          </button>
+        </NavLink>
+      </li>
 
-        </> : <><li>
-        <NavLink to="/login" style={setActiveStyle} className="font-black">Login</NavLink>
-      </li></>
-      }
+      {user ? (
+        <>
+          <button onClick={handleLogOut} className="btn btn-active btn-ghost">
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink to="/login" style={setActiveStyle} className="font-black">
+              Login
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -78,16 +104,15 @@ const Navbar = () => {
       <div className="navbar max-w-screen-xl fixed z-50 bg-black text-white bg-opacity-30">
         <div className="navbar-start">
           <div className="dropdown" ref={dropdownRef}>
-            <button 
-              className="btn btn-ghost lg:hidden" 
-              onClick={toggleMenu}
-            >
-              {menuOpen ? <AiOutlineClose className="h-5 w-5" /> : <AiOutlineMenu className="h-5 w-5" />}
+            <button className="btn btn-ghost lg:hidden" onClick={toggleMenu}>
+              {menuOpen ? (
+                <AiOutlineClose className="h-5 w-5" />
+              ) : (
+                <AiOutlineMenu className="h-5 w-5" />
+              )}
             </button>
             {menuOpen && (
-              <ul
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-              >
+              <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 {navLinks}
               </ul>
             )}
