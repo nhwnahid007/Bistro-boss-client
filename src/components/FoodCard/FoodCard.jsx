@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../Hooks/UseAxiosSecure";
+import UseCart from "../../Hooks/UseCart";
 
 
 const FoodCard = ({item}) => {
@@ -12,12 +13,14 @@ const FoodCard = ({item}) => {
     const navigate = useNavigate()
     const location = useLocation()
     const axiosSecure= useAxiosSecure()
+    const [,refetch] = UseCart()
   
-    const handleAddToCart = food => {
+    const handleAddToCart = () => {
       
      if(user && user.email){
-      //todo: send cart item to the database
-      console.log(user.email,food)
+      // send cart item to the database
+      
+
       const cartItem = {
         menuId : _id,
         email : user.email,
@@ -30,6 +33,8 @@ const FoodCard = ({item}) => {
       console.log(res.data)
       if(res.data.insertedId){
         toast.success(`${name} added to your cart successfully`)
+        //refetch the cart to update the cart items count
+        refetch()
       }
       })
      }
@@ -68,7 +73,7 @@ const FoodCard = ({item}) => {
             {recipe}
         </p>
         <div className="card-actions justify-end">
-          <button onClick={()=>handleAddToCart(item)} className=" btn  btn-outline bg-slate-100 border-orange-400 border-0 border-b-4 mt-4 ">Add to cart</button>
+          <button onClick={handleAddToCart} className=" btn  btn-outline bg-slate-100 border-orange-400 border-0 border-b-4 mt-4 ">Add to cart</button>
         </div>
       </div>
     </div>
