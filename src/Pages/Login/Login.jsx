@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
   const captchaRef = useRef(null);
@@ -144,7 +145,12 @@ const Login = () => {
               value="Login"
             />
           </form>
-          <p className="mx-8">
+          <div className="divider"></div> 
+
+          <SocialLogin></SocialLogin>
+
+
+          <p className="mx-8 py-2">
             <small>
               New Here?{" "}
               <Link className="font-bold text-primary" to="/signup">
@@ -154,6 +160,7 @@ const Login = () => {
             </small>
           </p>
         </div>
+        
       </div>
     </div>
   );

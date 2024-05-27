@@ -37,6 +37,7 @@ const Navbar = () => {
     logOut()
       .then(() => {
         toast.success("Logged Out Successfully");
+        setMenuOpen(false)
       })
       .catch((error) => {
         console.log(error);

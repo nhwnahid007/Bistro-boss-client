@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuhtContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
 import UseAxiosPublic from "../../Hooks/UseAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -201,6 +202,7 @@ const SignUp = () => {
               <button className="btn btn-primary">Sign Up</button>
             </div>
           </form>
+          <SocialLogin></SocialLogin>
           <p className="mx-8 "><small>Already Have an account? <Link className="font-bold text-primary" to='/login'>Sign in</Link> here</small> </p>
         </div>
       </div>
