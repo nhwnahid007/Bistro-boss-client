@@ -5,6 +5,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { AuhtContext } from "../../Providers/AuthProvider";
 import toast from "react-hot-toast";
+import UseAxiosPublic from "../../Hooks/UseAxiosPublic";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +17,10 @@ const SignUp = () => {
   } = useForm();
 
   const {createUser,updateUserProfile} = useContext(AuhtContext)
+
+  //axios 
+
+  const axiosPublic = UseAxiosPublic()
 
   const navigate = useNavigate()
 
@@ -29,14 +34,27 @@ const SignUp = () => {
       console.log(LoggedUser)
       updateUserProfile(data.name,data.photoURL)
       .then(()=>{
+        const userInfo = {
+          name: data.name,
+          email: data.email
+        }
         console.log('User Profile Updated')
-        reset();
+        axiosPublic.post('/users',userInfo)
+        .then(res => {
+          if(res.data.insertedId){
+            console.log('user added to the database')
+            reset();
+            toast.success("sign up successfully")
+            navigate('/')
+          }
+        })
+
+        
       })
       .catch(error =>{
         console.log(error)
       })
-      toast.success("sign up successfully")
-      navigate('/')
+     
     })
     .catch(error=>{
       console.log(error)
@@ -80,7 +98,7 @@ const SignUp = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span className="label-text">Photo</span>
               </label>
               <input
                 {...register("photoURL", { required: "photoURL is required" })}
