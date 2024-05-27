@@ -74,7 +74,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/"
+          to="/dashboard/cart"
           style={setActiveStyle}
           className="font-black"
         >
