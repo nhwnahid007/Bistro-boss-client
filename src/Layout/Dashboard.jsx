@@ -1,6 +1,6 @@
-import { FaCalendar, FaEnvelope, FaHome, FaShoppingCart } from "react-icons/fa";
+import { FaBook, FaCalendar, FaEnvelope, FaHome, FaShoppingCart,  FaUsers,  FaUtensils } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
-import { MdRestaurantMenu, MdReviews } from "react-icons/md";
+import {  MdRestaurantMenu, MdReviews } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../Hooks/UseCart";
 
@@ -15,7 +15,43 @@ const Dashboard = () => {
       {/* Dashboard Sidebar */}
       <div className="w-64 min-h-screen bg-orange-400">
         <ul className="menu">
+          
+          {
+            isAdmin ? <>
+            <li>
+            <NavLink to="/dashboard/adminHome">
+              {" "}
+              <FaHome></FaHome> Admin Home
+            </NavLink>
+          </li>
           <li>
+            <NavLink to="/dashboard/addItems">
+              {" "}
+              <FaUtensils></FaUtensils> Add Items
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/manageItems">
+              {" "}
+              <FaList></FaList> Manage Items
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/manageBookings">
+              {" "}
+              <FaBook></FaBook> Manage Bookings
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/users">
+              {" "}
+              <FaUsers></FaUsers> All Users
+            </NavLink>
+          </li>
+            </> 
+            : 
+            <>
+            <li>
             <NavLink to="/dashboard/userHome">
               {" "}
               <FaHome></FaHome> User Home
@@ -45,7 +81,13 @@ const Dashboard = () => {
               <FaList></FaList> Bookings
             </NavLink>
           </li>
+            </>
+            
+          }
+
+          {/* Divider */}
           <div className="divider"></div>
+          {/* Shared navlinks */}
           <li>
             <NavLink to="/">
               {" "}
