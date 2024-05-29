@@ -19,9 +19,9 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const googleProvider = new GoogleAuthProvider ()
+  const googleProvider = new GoogleAuthProvider();
 
-  const axiosPublic = UseAxiosPublic()
+  const axiosPublic = UseAxiosPublic();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -29,30 +29,26 @@ const AuthProvider = ({ children }) => {
   };
 
   const signIn = (email, password) => {
-    setLoading(true)
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const googleSignIn = ()=>{
-    setLoading(true)
-    return signInWithPopup(auth,googleProvider)
-  }
+  const googleSignIn = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
 
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
 
-  const logOut = ()=>{
-    setLoading(true)
-    return signOut(auth)
-  }
-
-
-
-
-  const updateUserProfile = (name,photo)=>{
+  const updateUserProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
-      displayName: name, photoURL: photo
-    })
-
-  } 
+      displayName: name,
+      photoURL: photo,
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -61,22 +57,21 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         // If a user is logged in
         const userInfo = { email: currentUser.email }; // Prepare the user info with the current user's email
-        
+
         // Send a POST request to the /jwt endpoint with the user's email
-        axiosPublic.post('/jwt', userInfo)
-          .then(res => {
-            // If the response contains a token
-            if (res.data.token) {
-              // Store the token in local storage
-              localStorage.setItem('access-token', res.data.token);
-            }
-          });
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          // If the response contains a token
+          if (res.data.token) {
+            // Store the token in local storage
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
       } else {
         // If no user is logged in
         // Remove any existing token from local storage
-        localStorage.removeItem('access-token');
+        localStorage.removeItem("access-token");
       }
-      
+
       setLoading(false);
     });
     return () => {
@@ -91,7 +86,7 @@ const AuthProvider = ({ children }) => {
     signIn,
     logOut,
     updateUserProfile,
-    googleSignIn
+    googleSignIn,
   };
   return (
     <AuhtContext.Provider value={authInfo}>{children}</AuhtContext.Provider>

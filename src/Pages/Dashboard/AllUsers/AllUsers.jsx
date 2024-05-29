@@ -48,7 +48,7 @@ const AllUsers = () => {
       console.log(res.data)
       if(res.data.modifiedCount>0){
         refetch()
-        toast(`${user.name} is an admin now`)
+        toast.success(`${user.name} is an admin now`)
       }
     })
   }
